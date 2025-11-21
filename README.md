@@ -22,7 +22,7 @@ Vérifier qu'il est bien installé :
 ```bash
 restic version
 ```
-![screen](Screenshots/backup1)
+![screen](Screenshots/backup1.png)
 ### Etape 2 :  Choisir un emplacement pour les backups
 
 On va commencer sur un dossier en local :
@@ -84,7 +84,7 @@ Puis l'exécuter, et vérifier dans /opt/backups que il y a les snapshots enregi
 ```bash
 restic snapshots
 ```
-![screen](Screenshots/backup2)
+![screen](Screenshots/backup2.png)
 ## Configurez le logiciel **cron** pour qu’il exécute ce script toutes les heures
 
 ### Etape 1 : Ouvrir cron : 
@@ -100,7 +100,7 @@ Pour exécuter chaque heure : 0 * * * *
 ```bash
 0 * * * * /opt/ghostfolio/backup.sh
 ```
-![screen](Screenshots/backup3)
+![screen](Screenshots/backup3.png)
 ## En utilisant l’utilitaire rclone , transférez le backup sur un serveur distant (ex: Google Drive, dropbox)
 
 ### Etape 1 : Installer rclone :
@@ -120,8 +120,10 @@ rclone config
 - Client ID : laisser vide 
 - Client secret : vide
 - auto config : oui
-	- Autoriser dans le navigateur 
-![screen](Screenshots/backup4)
+	- Autoriser dans le navigateur
+ 
+![screen](Screenshots/backup4.png)
+
 - taper 'q' pour quitter 
 
 ### Etape 3 : Tester d'envoyer un fichier sur dropbox 
@@ -138,7 +140,7 @@ pour vérifier :
 rclone ls dropbox:ghostfolio-backups
 ```
 
-![screen](Screenshots/backup5)
+![screen](Screenshots/backup5.png)
 il apparait, ça marche
 ### Etape 4 : Modifier le script pour pouvoir envoyer les backups 
 
@@ -147,7 +149,7 @@ Donc a la fin du script /opt/ghostfolio/backup.sh il faut ajouter :
 ```bash
 rclone sync /home/ghostfolio/backups dropbox:ghostfolio-backups
 ```
-![screen](Screenshots/backup6)
+![screen](Screenshots/backup6.png)
 ### Etape 5 : tester sur dropbox si le fichier est présent
 
 exécuter le script backup.
@@ -200,11 +202,11 @@ Test d'upload :
 rclone sync /opt/backups dropbox:ghostfolio-backups -P
 ```
 si il y a un chargement c'est bon :
-![screen](Screenshots/backup7)
+![screen](Screenshots/backup7.png)
 
 Dans dropbox :
 
-![screen](Screenshots/backup8)
+![screen](Screenshots/backup8.png)
 la backup est la (par contre avec l'essai gratuit on a le droit qu'a 2go donc je ne peux pas mettre + que 1 backup)
 
 
