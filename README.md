@@ -1,3 +1,194 @@
+
+
+# Installation du logiciel
+
+
+Rapport sur l'installation de Ghostfolio sur un serveur Debian 13 
+
+Introduction 
+
+Ce projet vise à installer Ghostfolio, une application permettant de suivre des portefeuilles d’actions et de crypto-monnaies, sur un serveur Debian 13. Nous avons choisi d’effectuer une installation manuelle sans Docker. Ce rapport explique les étapes suivies et les commandes utilisées. 
+
+ 
+
+ 
+
+ 
+
+1. Mise à jour du système et installation des outils essentiels 
+
+La première étape consiste à mettre à jour le système Debian et à installer les outils nécessaires pour l'installation de Ghostfolio. Nous avons utilisé les commandes suivantes : 
+
+![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/MISE%20A%20JOUR%20DES%20PAQUETS.png)
+
+
+
+
+ 
+
+ 
+
+. La commande su permet de se connecter en tant qu'utilisateur root, puis sudo apt update sert à mettre à jour la liste des paquets sur un système Linux. 
+
+Cela fait appel à la gestion des paquets sous Linux, qui permet d'installer et de maintenir les logiciels et leurs dépendances 
+
+ 
+
+Ensuite, nous avons installé Node.js et PNPM. L'installation de Node.js permet de faire tourner des applications JavaScript côté serveur. PNPM est un gestionnaire de paquets qui permet d'installer des dépendances rapidement, ce qui est essentiel pour gérer le projet sans alourdir le système. 
+
+
+ 
+
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/NODE%20JS.png)
+
+
+ 
+
+Documentation utilises : https://nodejs.org/en/download et https://serverfault.com/questions/904618/how-to-install-npm-on-debian 
+
+ 
+
+3. Configuration de PostgreSQL 
+
+Une étape importante consiste à configurer PostgreSQL, la base de données qui stockera les informations de Ghostfolio. Nous avons créé un utilisateur PostgreSQL et une base de données. 
+
+Installation de postgres  :  
+
+
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/installation%20postgres.png)
+
+
+4. Clonage du projet et installation des dépendances
+
+
+
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/CLONAGE%20.png)
+
+
+Une fois la base de données configurée, nous avons cloné le projet Ghostfolio depuis GitHub et installé les dépendances nécessaires.  
+
+git clone https://github.com/ghostfolio/ghostfolio.git . : Cette commande clone le dépôt Ghostfolio depuis GitHub dans le répertoire actuel. 
+
+ 
+
+Le clonage du projet avec Git permet de récupérer les fichiers sources de Ghostfolio. 
+
+ 
+
+ 
+
+5. Création du fichier .env 
+
+Le fichier .env contient des informations sensibles, telles que l'URL de la base de données et les clés secrètes pour l'authentification. Voici la configuration de ce fichier : 
+
+Commande utiliser pour creer le ficheir env :  
+
+cat > /opt/ghostfolio/.env :  Crée un fichier .env dans lequel nous stockons des variables de configuration sensibles comme la connexion à la base de données et les clés secrètes utilisées pour sécuriser l’application. 
+
+Le fichier .env est une bonne pratique pour garder les informations sensibles en dehors du code source. Cela permet de sécuriser l'application et de faciliter la gestion des configurations dans différents environnements 
+
+ 
+
+6. Compilation et démarrage du projet 
+
+Enfin, nous avons compilé le projet et démarré le serveur en mode production. 
+
+Les commandes qui ont eté utilises :  
+
+pnpm run build:production : Compile le projet en optimisant le code pour une utilisation en production. 
+
+npm run start:production : Démarre l'application en mode production, ce qui permet à l'application de tourner sur le serveur. 
+
+
+ 
+
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/compilation.png)
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Erreurs rencontrées et solutions apportées  
+
+ 
+
+1.1 Erreur de connexion à la base de données PostgreSQL 
+
+L'une des premières erreurs rencontrées était liée à la connexion à PostgreSQL. Lorsque nous avons essayé de démarrer l’application, une erreur de connexion à la base de données s'est produite, souvent avec un message indiquant des informations d'identification incorrectes. 
+
+Solution apportée : 
+Nous avons vérifié les informations de connexion dans le fichier .env et constaté que l'utilisateur PostgreSQL et les permissions n'étaient pas configurés correctement. Nous avons donc créé un nouvel utilisateur PostgreSQL avec un mot de passe sécurisé et attribué les permissions nécessaires. 
+
+ 
+
+1.2 Erreur liée à JWT_SECRET_KEY 
+
+Une autre erreur fréquente était liée à la clé secrète JWT_SECRET_KEY. Lors de l'inscription ou de la génération des tokens JWT, l’erreur secretOrPrivateKey must have a value apparaissait. Cela était dû au fait que la clé secrète JWT_SECRET_KEY n’était pas définie dans le fichier .env, ce qui empêchait l’application de signer correctement les tokens. 
+
+Solution apportée : 
+Nous avons ouvert le fichier .env et ajouté une clé secrète valide pour JWT_SECRET_KEY, ce qui a permis à l’application de générer des tokens JWT fonctionnels. 
+
+ 
+
+ 
+
+1.3 Erreur de connexion à Redis 
+
+Le troisième problème majeur concernait la connexion à Redis, utilisé pour la gestion du cache. L'erreur affichée était ECONNREFUSED, ce qui indique que l’application n’arrivait pas à se connecter à Redis. 
+
+Solution apportée : 
+Nous avons installé Redis sur le serveur et l’avons démarré à l’aide de la commande suivante : 
+
+ 
+
+sudo apt install redis-server 
+
+sudo systemctl start redis-server 
+
+sudo systemctl status redis-server 
+
+1.4 Erreur lors de la vérification de l'installation de Express et Keyv 
+
+Lors de la vérification de l'installation des dépendances Express et Keyv, nous avons rencontré des erreurs indiquant que ces modules n'étaient pas correctement installés, bien que nous les ayons installés dans les étapes précédentes. Les commandes suivantes ont été utilisées pour les réinstalles : 
+
+pnpm add express 
+
+pnpm add keyv 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+En résumé, les erreurs rencontrées lors de l’installation de Ghostfolio ont été résolues grâce à une série de vérifications et d'ajustements. L’application fonctionne maintenant correctement, avec une base de données PostgreSQL opérationnelle, une configuration valide pour JWT_SECRET_KEY, et une connexion fonctionnelle à Redis pour le cache. L'application est prête à être utilisée en production sans erreurs majeures. 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Linux_Projet
 
 ## Context
@@ -285,3 +476,5 @@ chmod +x /opt/ghostfolio/backup.sh
 
 (crontab -l 2>/dev/null; echo "0 * * * * /opt/ghostfolio/backup.sh") | crontab -
 ```
+
+
