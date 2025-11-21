@@ -490,15 +490,13 @@ Sécurisation avec Fail2ban
 
  
 
-l’objectif est d'installer et de sécuriser Ghostfolio. Ce rapport présente les étapes d’installation de Ghostfolio ainsi que la configuration de Fail2ban pour sécuriser l’application contre les tentatives d'accès non autorisées et les attaques d'énumération web. 
+l’objectif est d'installer et de sécuriser Ghostfolio. Ce rapport présente les étapes d’installation ainsi que la configuration de Fail2ban pour sécuriser l’application contre les tentatives d'accès non autorisées et les attaques d'énumération web. 
 
  
 
-Installation du logiciel (Ghostfolio) 
-
 2.1 Pré-requis et installation de NGINX 
+il est nécessaire de configurer NGINX comme reverse proxy pour gérer le trafic web et rediriger les requêtes HTTP vers l’application qui tourne en arrière-plan. 
 
-Avant d’installer Ghostfolio, il est nécessaire de configurer NGINX comme reverse proxy pour gérer le trafic web et rediriger les requêtes HTTP vers l’application qui tourne en arrière-plan. 
 
 Les étapes suivantes ont été suivies : 
 
