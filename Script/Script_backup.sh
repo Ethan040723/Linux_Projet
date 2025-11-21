@@ -6,16 +6,12 @@ apt update
 apt install -y restic rclone postgresql-client
 
 
-echo "CREATION DU DEPOT RESTIC"
-
 mkdir -p /opt/backups
 export RESTIC_REPOSITORY="/opt/backups"
 export RESTIC_PASSWORD="motdepasse"
 
 restic init || true
 
-
-echo "CONFIGURATION RCLONE"
 mkdir -p /root/.config/rclone
 
 cat <<EOF >/root/.config/rclone/rclone.conf
@@ -23,9 +19,6 @@ cat <<EOF >/root/.config/rclone/rclone.conf
 type = dropbox
 token = {"access_token":""}
 EOF
-
-
-echo "CREATION DU SCRIPT DE BACKUP"
 
 mkdir -p /opt/ghostfolio
 
@@ -48,7 +41,7 @@ export PGPASSWORD
 # DOSSIER A SAUVEGARDER
 TARGET="/opt/ghostfolio"
 
-# Dump PostgreSQL (horodaté)
+# Dump PostgreSQL
 DUMPFILE="/tmp/ghostfolio_$(date +%Y%m%d%H%M%S).sql"
 pg_dump -U "$PGUSER" "$PGDATABASE" > "$DUMPFILE"
 
