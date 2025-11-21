@@ -50,7 +50,7 @@ DATABASE_URL="postgresql://ianick4real:$PG_PASSWORD@localhost:5432/ghostfolio_db
 NODE_ENV=production
 PORT=3333
 ENABLE_SIGNUP=true
-ACCESS_TOKEN_SALT="d2a0f8c7e13b4f61a893f76de5c4c812"
+
 EOF
 
 JWT_SECRET=$(openssl rand -hex 32) 
@@ -66,4 +66,5 @@ pnpm run build:production
 sed -i 's/node main/node dist\/apps\/api\/main.js/' package.json
 
 # Démarrage du projet 
+
 npm run start:production
