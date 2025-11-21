@@ -478,3 +478,110 @@ chmod +x /opt/ghostfolio/backup.sh
 ```
 
 
+
+
+
+
+
+#  FAIL2BAN
+
+
+Sécurisation avec Fail2ban 
+
+ 
+
+l’objectif est d'installer et de sécuriser Ghostfolio. Ce rapport présente les étapes d’installation de Ghostfolio ainsi que la configuration de Fail2ban pour sécuriser l’application contre les tentatives d'accès non autorisées et les attaques d'énumération web. 
+
+ 
+
+Installation du logiciel (Ghostfolio) 
+
+2.1 Pré-requis et installation de NGINX 
+
+Avant d’installer Ghostfolio, il est nécessaire de configurer NGINX comme reverse proxy pour gérer le trafic web et rediriger les requêtes HTTP vers l’application qui tourne en arrière-plan. 
+
+Les étapes suivantes ont été suivies : 
+
+sudo apt update : cette commande permet de mettre à jour la liste des paquets disponibles sur le serveur afin de garantir que nous travaillons avec la dernière version des paquets nécessaires. 
+
+sudo apt install -y nginx : Cette commande installe NGINX 
+
+2.2 Configuration du reverse proxy 
+
+Une fois NGINX installé, nous avons créé un fichier de configuration dédié pour Ghostfolio afin de le faire fonctionner avec le reverse proxy : 
+
+Docs utilises : https://www.hostinger.com/fr/tutoriels/reverse-proxy-nginx 
+
+Cette configuration permet à NGINX de rediriger les requêtes HTTP reçues sur le port 80 vers l’application Ghostfolio, qui écoute en arrière-plan sur le port 3333. En plus de cela, des logs sont créés dans /var/log/nginx/ghostfolio.access.log et /var/log/nginx/ghostfolio.error.log pour une gestion plus facile des erreurs et du trafic. 
+
+ 
+
+3. Mise en place de la sécurité avec Fail2ban 
+
+La première étape a consisté à installer Fail2ban : 
+
+sudo apt install -y fail2ban 
+ 
+
+Cela permet de protéger notre serveur contre les attaques en bloquant les IP malveillantes après un certain nombre de tentatives échouées. 
+
+ 
+
+3.2 Configuration de Fail2ban pour Ghostfolio 
+
+3.2.1 Jail Fail2ban pour les jetons invalides 
+
+Nous avons configuré une jail Fail2ban pour surveiller les tentatives de connexion invalides sur Ghostfolio. Cela détecte lorsqu’un utilisateur entre un jeton invalide et empêche un attaquant de tenter de nombreuses connexions. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Dans cette configuration : 
+
+maxretry = 5 : Si un utilisateur échoue 5 fois en 5 minutes, son IP est bannie pendant 1 heure. 
+
+logpath : Le chemin vers les logs générés par NGINX. 
+
+
+
+ 
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/CONFIG%20JETON.jpg)
+
+
+ 
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/IPBAN.jpg)
+ 
+
+3.2.3 Jail Fail2ban pour l’énumération web 
+
+En plus de la protection contre les jetons invalides, nous avons mis en place une jail Fail2ban pour détecter les tentatives d’énumération web. L’énumération web consiste à essayer différentes pages au hasard pour voir si elles existent. Si un attaquant tente d’accéder à plusieurs pages inexistantes, il sera banni. 
+
+Voici la configuration de la jail : 
+
+
+
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/WEB%20ENUMERATION.jpg)
+ 
+
+ 
+
+Une fois les configurations terminées, nous avons redémarré Fail2ban pour appliquer les nouvelles règles : 
+
+sudo systemctl restart fail2ban 
+
+ 
+
+ 
+
+ 
