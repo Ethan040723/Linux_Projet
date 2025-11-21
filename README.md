@@ -5,7 +5,7 @@
 
 Rapport sur l'installation de Ghostfolio sur un serveur Debian 13 
 
-Introduction 
+## Introduction 
 
 Ce projet vise à installer Ghostfolio, une application permettant de suivre des portefeuilles d’actions et de crypto-monnaies, sur un serveur Debian 13. Nous avons choisi d’effectuer une installation manuelle sans Docker. Ce rapport explique les étapes suivies et les commandes utilisées. 
 
@@ -15,7 +15,7 @@ Ce projet vise à installer Ghostfolio, une application permettant de suivre des
 
  
 
-1. Mise à jour du système et installation des outils essentiels 
+## Étape 1: Mise à jour du système et installation des outils essentiels 
 
 La première étape consiste à mettre à jour le système Debian et à installer les outils nécessaires pour l'installation de Ghostfolio. Nous avons utilisé les commandes suivantes : 
 
@@ -28,11 +28,11 @@ La première étape consiste à mettre à jour le système Debian et à installe
 
  
 
-. La commande su permet de se connecter en tant qu'utilisateur root, puis sudo apt update sert à mettre à jour la liste des paquets sur un système Linux. 
+La commande su permet de se connecter en tant qu'utilisateur root, puis sudo apt update sert à mettre à jour la liste des paquets sur un système Linux. 
 
 Cela fait appel à la gestion des paquets sous Linux, qui permet d'installer et de maintenir les logiciels et leurs dépendances 
 
- 
+ ## Étape 2 : INstallation des packages
 
 Ensuite, nous avons installé Node.js et PNPM. L'installation de Node.js permet de faire tourner des applications JavaScript côté serveur. PNPM est un gestionnaire de paquets qui permet d'installer des dépendances rapidement, ce qui est essentiel pour gérer le projet sans alourdir le système. 
 
@@ -48,7 +48,7 @@ Documentation utilises : https://nodejs.org/en/download et https://serverfault.c
 
  
 
-3. Configuration de PostgreSQL 
+## Étape 3: Configuration de PostgreSQL 
 
 Une étape importante consiste à configurer PostgreSQL, la base de données qui stockera les informations de Ghostfolio. Nous avons créé un utilisateur PostgreSQL et une base de données. 
 
@@ -58,7 +58,7 @@ Installation de postgres  :
  ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/installation%20postgres.png)
 
 
-4. Clonage du projet et installation des dépendances
+## Étape 4: Clonage du projet et installation des dépendances
 
 
 
@@ -77,7 +77,7 @@ Le clonage du projet avec Git permet de récupérer les fichiers sources de Ghos
 
  
 
-5. Création du fichier .env 
+## Étape 5: Création du fichier .env 
 
 Le fichier .env contient des informations sensibles, telles que l'URL de la base de données et les clés secrètes pour l'authentification. Voici la configuration de ce fichier : 
 
@@ -89,7 +89,7 @@ Le fichier .env est une bonne pratique pour garder les informations sensibles en
 
  
 
-6. Compilation et démarrage du projet 
+## Étape 6: Compilation et démarrage du projet 
 
 Enfin, nous avons compilé le projet et démarré le serveur en mode production. 
 
@@ -114,11 +114,11 @@ npm run start:production : Démarre l'application en mode production, ce qui per
 
  
 
-Erreurs rencontrées et solutions apportées  
+# Erreurs rencontrées et solutions apportées  
 
  
 
-1.1 Erreur de connexion à la base de données PostgreSQL 
+## 1.1 Erreur de connexion à la base de données PostgreSQL 
 
 L'une des premières erreurs rencontrées était liée à la connexion à PostgreSQL. Lorsque nous avons essayé de démarrer l’application, une erreur de connexion à la base de données s'est produite, souvent avec un message indiquant des informations d'identification incorrectes. 
 
@@ -127,7 +127,7 @@ Nous avons vérifié les informations de connexion dans le fichier .env et const
 
  
 
-1.2 Erreur liée à JWT_SECRET_KEY 
+## 1.2 Erreur liée à JWT_SECRET_KEY 
 
 Une autre erreur fréquente était liée à la clé secrète JWT_SECRET_KEY. Lors de l'inscription ou de la génération des tokens JWT, l’erreur secretOrPrivateKey must have a value apparaissait. Cela était dû au fait que la clé secrète JWT_SECRET_KEY n’était pas définie dans le fichier .env, ce qui empêchait l’application de signer correctement les tokens. 
 
@@ -138,7 +138,7 @@ Nous avons ouvert le fichier .env et ajouté une clé secrète valide pour JWT_S
 
  
 
-1.3 Erreur de connexion à Redis 
+## 1.3 Erreur de connexion à Redis 
 
 Le troisième problème majeur concernait la connexion à Redis, utilisé pour la gestion du cache. L'erreur affichée était ECONNREFUSED, ce qui indique que l’application n’arrivait pas à se connecter à Redis. 
 
@@ -146,56 +146,28 @@ Solution apportée :
 Nous avons installé Redis sur le serveur et l’avons démarré à l’aide de la commande suivante : 
 
  
-
+```bash
 sudo apt install redis-server 
 
 sudo systemctl start redis-server 
 
 sudo systemctl status redis-server 
-
-1.4 Erreur lors de la vérification de l'installation de Express et Keyv 
+```
+## 1.4 Erreur lors de la vérification de l'installation de Express et Keyv 
 
 Lors de la vérification de l'installation des dépendances Express et Keyv, nous avons rencontré des erreurs indiquant que ces modules n'étaient pas correctement installés, bien que nous les ayons installés dans les étapes précédentes. Les commandes suivantes ont été utilisées pour les réinstalles : 
-
+```bash
 pnpm add express 
 
 pnpm add keyv 
+```
 
- 
-
- 
-
- 
-
- 
-
- 
 
 En résumé, les erreurs rencontrées lors de l’installation de Ghostfolio ont été résolues grâce à une série de vérifications et d'ajustements. L’application fonctionne maintenant correctement, avec une base de données PostgreSQL opérationnelle, une configuration valide pour JWT_SECRET_KEY, et une connexion fonctionnelle à Redis pour le cache. L'application est prête à être utilisée en production sans erreurs majeures. 
 
  
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Linux_Projet
-
-## Context
-Nous devons réaliser un serveur linux pour lancer le service ghostfolio, ce service est un tracking de portfolio sur des actions en bourses.
-
-## Matériel 
-Nous allons utiliser Debian13 pour installer le serveur. Pourquoi Debian est pas un autre OS linux car pour les server Debian permet une meilleur 
 
 
 # Backups
@@ -486,15 +458,7 @@ chmod +x /opt/ghostfolio/backup.sh
 #  FAIL2BAN
 
 
-Sécurisation avec Fail2ban 
-
- 
-
-l’objectif est d'installer et de sécuriser Ghostfolio. Ce rapport présente les étapes d’installation ainsi que la configuration de Fail2ban pour sécuriser l’application contre les tentatives d'accès non autorisées et les attaques d'énumération web. 
-
- 
-
-2.1 Pré-requis et installation de NGINX 
+## Étape 1: Pré-requis et installation de NGINX 
 il est nécessaire de configurer NGINX comme reverse proxy pour gérer le trafic web et rediriger les requêtes HTTP vers l’application qui tourne en arrière-plan. 
 
 
@@ -504,7 +468,7 @@ sudo apt update : cette commande permet de mettre à jour la liste des paquets d
 
 sudo apt install -y nginx : Cette commande installe NGINX 
 
-2.2 Configuration du reverse proxy 
+## Étape 2: Configuration du reverse proxy 
 
 Une fois NGINX installé, nous avons créé un fichier de configuration dédié pour Ghostfolio afin de le faire fonctionner avec le reverse proxy : 
 
@@ -514,7 +478,7 @@ Cette configuration permet à NGINX de rediriger les requêtes HTTP reçues sur 
 
  
 
-3. Mise en place de la sécurité avec Fail2ban 
+## Étape 3: Mise en place de la sécurité avec Fail2ban 
 
 La première étape a consisté à installer Fail2ban : 
 
@@ -525,9 +489,9 @@ Cela permet de protéger notre serveur contre les attaques en bloquant les IP ma
 
  
 
-3.2 Configuration de Fail2ban pour Ghostfolio 
+## Étape 4: Configuration de Fail2ban pour Ghostfolio 
 
-3.2.1 Jail Fail2ban pour les jetons invalides 
+### Étape 4.1: Jail Fail2ban pour les jetons invalides 
 
 Nous avons configuré une jail Fail2ban pour surveiller les tentatives de connexion invalides sur Ghostfolio. Cela détecte lorsqu’un utilisateur entre un jeton invalide et empêche un attaquant de tenter de nombreuses connexions. 
 
@@ -561,7 +525,7 @@ logpath : Le chemin vers les logs générés par NGINX.
  ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/IPBAN.jpg)
  
 
-3.2.3 Jail Fail2ban pour l’énumération web 
+### Étape 4.2: Jail Fail2ban pour l’énumération web 
 
 En plus de la protection contre les jetons invalides, nous avons mis en place une jail Fail2ban pour détecter les tentatives d’énumération web. L’énumération web consiste à essayer différentes pages au hasard pour voir si elles existent. Si un attaquant tente d’accéder à plusieurs pages inexistantes, il sera banni. 
 
