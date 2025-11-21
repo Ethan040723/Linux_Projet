@@ -550,6 +550,122 @@ sudo systemctl restart fail2ban
 Le projet est sécuriser avec des backup et prêt a l'emploie !!!
  
 
+
+
+
+
+
+
+
+
+
+
+## Étape 3: Mise en place de la sécurité avec Fail2ban 
+
+La première étape a consisté à installer Fail2ban : 
+
+sudo apt install -y fail2ban 
+ 
+
+Cela permet de protéger notre serveur contre les attaques en bloquant les IP malveillantes après un certain nombre de tentatives échouées. 
+
+ 
+
+## Étape 4: Configuration de Fail2ban pour Ghostfolio 
+
+### Étape 4.1: Jail Fail2ban pour les jetons invalides 
+
+Nous avons configuré une jail Fail2ban pour surveiller les tentatives de connexion invalides sur Ghostfolio. Cela détecte lorsqu’un utilisateur entre un jeton invalide et empêche un attaquant de tenter de nombreuses connexions. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Dans cette configuration : 
+
+maxretry = 5 : Si un utilisateur échoue 5 fois en 5 minutes, son IP est bannie pendant 1 heure. 
+
+logpath : Le chemin vers les logs générés par NGINX. 
+
+
+
+ 
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/CONFIG%20JETON.jpg)
+
+
+ 
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/IPBAN.jpg)
+ 
+
+### Étape 4.2: Jail Fail2ban pour l’énumération web 
+
+En plus de la protection contre les jetons invalides, nous avons mis en place une jail Fail2ban pour détecter les tentatives d’énumération web. L’énumération web consiste à essayer différentes pages au hasard pour voir si elles existent. Si un attaquant tente d’accéder à plusieurs pages inexistantes, il sera banni. 
+
+Voici la configuration de la jail : 
+
+
+
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/WEB%20ENUMERATION.jpg)
+ 
+
+ 
+
+Une fois les configurations terminées, nous avons redémarré Fail2ban pour appliquer les nouvelles règles : 
+
+sudo systemctl restart fail2ban 
+
+
+
+
+
+#   Configuration du Pare-feu avec UFW
+UFW est une interface conviviale pour la gestion d'un pare-feu Netfilter dans les distributions Linux, en particulier dans Ubuntu
+
+
+ Objectif : Restreindre l’accès au serveur et n’accepter que le trafic légitime destiné à Ghostfolio. 
+
+ 
+
+1. Installation et activation de UFW 
+
+La première étape a été d’installer UFW . Une fois installé, UFW a été activé avec la commande sudo ufw enable, ce qui a permis de mettre en place une protection par défaut contre tous les flux entrants. 
+
+ 
+
+ 
+
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/installation%20de%20ufw.jpg)
+ 
+
+ 
+
+ 
+
+2. Configuration des règles de pare-feu 
+
+L’objectif était de ne permettre que le trafic vers les ports 80 (HTTP) et 443 (HTTPS) pour que Ghostfolio puisse recevoir les requêtes des utilisateurs. Les commandes suivantes ont été utilisées pour autoriser ce trafic : 
+
+
+ 
+
+ ![screen](https://github.com/Ethan040723/Linux_Projet/blob/main/Screenshots/autoriser.jpg)
+
+ 
+
+Cela a permis de permettre uniquement les connexions HTTP et HTTPS, tout en bloquant tous les autres ports entrants. 
+
+ 
+
  
 
  
