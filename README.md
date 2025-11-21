@@ -22,7 +22,7 @@ Vérifier qu'il est bien installé :
 ```bash
 restic version
 ```
-![[Pasted image 20251120101323.png]]
+![screen](Screenshots/backup1)
 ### Etape 2 :  Choisir un emplacement pour les backups
 
 On va commencer sur un dossier en local :
@@ -84,7 +84,7 @@ Puis l'exécuter, et vérifier dans /opt/backups que il y a les snapshots enregi
 ```bash
 restic snapshots
 ```
-![[Pasted image 20251120143145.png]]
+![screen](Screenshots/backup2)
 ## Configurez le logiciel **cron** pour qu’il exécute ce script toutes les heures
 
 ### Etape 1 : Ouvrir cron : 
@@ -100,7 +100,7 @@ Pour exécuter chaque heure : 0 * * * *
 ```bash
 0 * * * * /opt/ghostfolio/backup.sh
 ```
-![[Pasted image 20251120144006.png]]
+![screen](Screenshots/backup3)
 ## En utilisant l’utilitaire rclone , transférez le backup sur un serveur distant (ex: Google Drive, dropbox)
 
 ### Etape 1 : Installer rclone :
@@ -121,7 +121,7 @@ rclone config
 - Client secret : vide
 - auto config : oui
 	- Autoriser dans le navigateur 
-	![[Pasted image 20251120145012.png]]
+![screen](Screenshots/backup4)
 - taper 'q' pour quitter 
 
 ### Etape 3 : Tester d'envoyer un fichier sur dropbox 
@@ -138,7 +138,7 @@ pour vérifier :
 rclone ls dropbox:ghostfolio-backups
 ```
 
-![[Pasted image 20251120145643.png]]
+![screen](Screenshots/backup5)
 il apparait, ça marche
 ### Etape 4 : Modifier le script pour pouvoir envoyer les backups 
 
@@ -147,7 +147,7 @@ Donc a la fin du script /opt/ghostfolio/backup.sh il faut ajouter :
 ```bash
 rclone sync /home/ghostfolio/backups dropbox:ghostfolio-backups
 ```
-![[Pasted image 20251120150034.png]]
+![screen](Screenshots/backup6)
 ### Etape 5 : tester sur dropbox si le fichier est présent
 
 exécuter le script backup.
@@ -200,11 +200,11 @@ Test d'upload :
 rclone sync /opt/backups dropbox:ghostfolio-backups -P
 ```
 si il y a un chargement c'est bon :
-![[Pasted image 20251120154047.png]]
+![screen](Screenshots/backup7)
 
 Dans dropbox :
 
-![[Pasted image 20251120154258.png]]
+![screen](Screenshots/backup8)
 la backup est la (par contre avec l'essai gratuit on a le droit qu'a 2go donc je ne peux pas mettre + que 1 backup)
 
 
