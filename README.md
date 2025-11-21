@@ -3,7 +3,7 @@
 # Installation du logiciel
 
 
-Rapport sur l'installation de Ghostfolio sur un serveur Debian 13 
+Rapport sur l'installation de Ghostfolio sur un serveur Debian 13. Ce rapport à été créé par Yanick MBAIHINGABE , Hermann LE GURUN et Ethan QUEHE-LE COZLER 
 
 ## Introduction 
 
@@ -543,9 +543,11 @@ Voici la configuration de la jail :
  
 
 Une fois les configurations terminées, nous avons redémarré Fail2ban pour appliquer les nouvelles règles : 
-
+```bash
 sudo systemctl restart fail2ban 
+```
 
+Le projet est sécuriser avec des backup et prêt a l'emploie !!!
  
 
  
