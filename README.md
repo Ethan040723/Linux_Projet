@@ -463,10 +463,14 @@ il est nécessaire de configurer NGINX comme reverse proxy pour gérer le trafic
 
 
 Les étapes suivantes ont été suivies : 
-
-sudo apt update : cette commande permet de mettre à jour la liste des paquets disponibles sur le serveur afin de garantir que nous travaillons avec la dernière version des paquets nécessaires. 
-
-sudo apt install -y nginx : Cette commande installe NGINX 
+```bash
+sudo apt update
+```
+cette commande permet de mettre à jour la liste des paquets disponibles sur le serveur afin de garantir que nous travaillons avec la dernière version des paquets nécessaires. 
+```bash
+sudo apt install -y nginx
+```
+Cette commande installe NGINX 
 
 ## Étape 2: Configuration du reverse proxy 
 
@@ -480,10 +484,10 @@ Cette configuration permet à NGINX de rediriger les requêtes HTTP reçues sur 
 
 ## Étape 3: Mise en place de la sécurité avec Fail2ban 
 
-La première étape a consisté à installer Fail2ban : 
-
+La première étape a consisté à installer Fail2ban :
+```bash
 sudo apt install -y fail2ban 
- 
+```
 
 Cela permet de protéger notre serveur contre les attaques en bloquant les IP malveillantes après un certain nombre de tentatives échouées. 
 
